@@ -232,15 +232,16 @@ public class DecryptOnePm extends PresentationModelBase implements InitializingB
 	}
 
 	private boolean doWeHaveKeysToDecryptWith() {
-		if (!keyRingService.readKeys().isEmpty()) {
+		if (isThereAKeyForDecryption()) {
 			return true;
 		}
 		UiUtils.messageBox(text("phrase.noKeysForDecryption"), text("term.attention"), MessageSeverity.WARNING);
 		host.getActionToOpenCertificatesList().actionPerformed(null);
-		if (keyRingService.readKeys().isEmpty()) {
-			return false;
-		}
-		return true;
+		return isThereAKeyForDecryption();
+	}
+
+	private boolean isThereAKeyForDecryption() {
+		return keyRingService.readKeys().stream().anyMatch(x -> x.getKeyData().isCanBeUsedForDecryption());
 	}
 
 	public ExistingFileChooserDialog getSourceFileChooser() {

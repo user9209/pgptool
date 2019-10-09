@@ -111,6 +111,7 @@ public class MainFrameView extends ViewBase<MainFramePm> implements HasWindow {
 	private JCheckBoxMenuItem miAutoCheckForUpdates;
 	private JMenuItem miConfigExit;
 	private JMenuItem miEncrypt;
+	private JMenuItem miReEncrypt;
 	private JMenuItem miDecrypt;
 	private JMenuItem miEncryptText;
 	private JMenuItem miDecryptText;
@@ -448,6 +449,7 @@ public class MainFrameView extends ViewBase<MainFramePm> implements HasWindow {
 		menuActions.add(miDecryptText = new JMenuItem());
 		menuActions.addSeparator();
 		menuActions.add(miEncryptBackAll = new JMenuItem());
+		menuActions.add(miReEncrypt = new JMenuItem());
 
 		menuBar.add(menuFile);
 		menuBar.add(menuKeyring);
@@ -547,6 +549,7 @@ public class MainFrameView extends ViewBase<MainFramePm> implements HasWindow {
 		bindingContext.setupBinding(pm.getActionEncrypt(), miEncrypt);
 		bindingContext.setupBinding(pm.getActionEncryptText(), miEncryptText);
 		bindingContext.setupBinding(pm.getActionDecryptText(), miDecryptText);
+		bindingContext.setupBinding(pm.getActionReEncrypt(), miReEncrypt);
 		bindingContext.setupBinding(pm.actionEncryptBackAll, miEncryptBackAll);
 		bindingContext.add(new HasActionBinding(pm.actionEncryptBackAll, linkEncryptBackAll));
 

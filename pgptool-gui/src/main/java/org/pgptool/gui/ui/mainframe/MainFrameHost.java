@@ -36,6 +36,8 @@ public interface MainFrameHost {
 
 	Action getActionForEncryptText();
 
+	Action getActionReEncrypt();
+
 	Action getActionForDecrypt();
 
 	Action getActionForDecryptText();

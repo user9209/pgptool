@@ -81,6 +81,8 @@ import org.pgptool.gui.ui.keyslist.KeysListView;
 import org.pgptool.gui.ui.mainframe.MainFrameHost;
 import org.pgptool.gui.ui.mainframe.MainFramePm;
 import org.pgptool.gui.ui.mainframe.MainFrameView;
+import org.pgptool.gui.ui.reencrypt.ReEncryptRootHost;
+import org.pgptool.gui.ui.reencrypt.ReEncryptRootPm;
 import org.pgptool.gui.ui.tempfolderfordecrypted.TempFolderChooserPm;
 import org.pgptool.gui.ui.tools.UiUtils;
 import org.pgptool.gui.usage.api.UsageLogger;
@@ -337,6 +339,11 @@ public class RootPm implements ApplicationContextAware, InitializingBean, Global
 		public Action getActionImportKeyFromText() {
 			return importKeyFromClipboard;
 		}
+
+		@Override
+		public Action getActionReEncrypt() {
+			return reEncryptRootHost.getAction();
+		}
 	};
 
 	private void openMainFrameWindow() {
@@ -379,6 +386,25 @@ public class RootPm implements ApplicationContextAware, InitializingBean, Global
 		}
 		return mainFrameView;
 	}
+
+	private ReEncryptRootHostImpl reEncryptRootHost = new ReEncryptRootHostImpl();
+
+	private class ReEncryptRootHostImpl implements ReEncryptRootHost {
+		private ReEncryptRootPm reEncryptRootPm;
+
+		@Override
+		public Action getActionToOpenCertificatesList() {
+			return keysListWindowHost.actionToOpenWindow;
+		}
+
+		public Action getAction() {
+			if (reEncryptRootPm == null) {
+				reEncryptRootPm = applicationContext.getBean(ReEncryptRootPm.class, this);
+			}
+
+			return reEncryptRootPm.reEncryptEntryPoint;
+		}
+	};
 
 	private class ImportKeyDialogOpener extends DialogOpener<KeyImporterPm, KeyImporterView> {
 		private List<Key> keys;

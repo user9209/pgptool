@@ -330,6 +330,10 @@ public class MainFramePm extends PresentationModelBase implements ApplicationCon
 		return host.getActionForDecryptText();
 	}
 
+	public Action getActionReEncrypt() {
+		return host.getActionReEncrypt();
+	}
+
 	public Action getActionDecrypt() {
 		return host.getActionForDecrypt();
 	}

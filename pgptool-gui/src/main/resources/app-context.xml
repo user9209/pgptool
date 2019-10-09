@@ -173,4 +173,6 @@
 	<bean class="org.pgptool.gui.ui.checkForUpdates.UpdatesPolicy" />
 	<bean class="org.pgptool.gui.usage.api.Usage" />
 
+	<bean class="org.pgptool.gui.ui.reencrypt.ReEncryptRootPm" scope="prototype" />
+
 </beans>

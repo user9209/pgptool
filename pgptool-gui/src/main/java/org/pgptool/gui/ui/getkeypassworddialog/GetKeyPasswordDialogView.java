@@ -40,6 +40,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.google.common.base.Preconditions;
+
 import ru.skarpushin.swingpm.base.ViewBase;
 
 public class GetKeyPasswordDialogView extends DialogViewBaseCustom<GetKeyPasswordDialogPm>
@@ -134,7 +136,8 @@ public class GetKeyPasswordDialogView extends DialogViewBaseCustom<GetKeyPasswor
 	public ViewBase<GetKeyPasswordPm> getPasswordView() {
 		if (passwordView == null) {
 			List<MatchedKey> matchedKeys = pm.getGetKeyPasswordPm().getMatchedKeys();
-			if (matchedKeys != null && matchedKeys.size() == 1) {
+			Preconditions.checkState(matchedKeys != null, "matchedKeys collection must not be null at this point");
+			if (matchedKeys.size() == 1) {
 				passwordView = applicationContext.getBean(GetKeyPasswordOneKeyView.class);
 			} else {
 				passwordView = applicationContext.getBean(GetKeyPasswordManyKeysView.class);

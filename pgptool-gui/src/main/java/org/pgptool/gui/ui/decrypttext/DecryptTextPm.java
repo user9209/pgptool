@@ -84,7 +84,7 @@ public class DecryptTextPm extends PresentationModelBase {
 		Preconditions.checkArgument(host != null);
 		this.host = host;
 
-		if (!ensureWeHaveAtLeastOnePrivateKey()) {
+		if (!doWeHaveKeysToDecryptWith()) {
 			return false;
 		}
 
@@ -146,24 +146,17 @@ public class DecryptTextPm extends PresentationModelBase {
 		}
 	};
 
-	private boolean ensureWeHaveAtLeastOnePrivateKey() {
-		if (doWeHaveAtLeastOnePrivateKey()) {
+	private boolean doWeHaveKeysToDecryptWith() {
+		if (isThereAKeyForDecryption()) {
 			return true;
 		}
 		UiUtils.messageBox(text("phrase.noKeysForDecryption"), text("term.attention"), MessageSeverity.WARNING);
 		host.getActionToOpenCertificatesList().actionPerformed(null);
-		if (!doWeHaveAtLeastOnePrivateKey()) {
-			return false;
-		}
-		return true;
+		return isThereAKeyForDecryption();
 	}
 
-	private boolean doWeHaveAtLeastOnePrivateKey() {
-		List<Key> keys = keyRingService.readKeys();
-		if (keys.isEmpty()) {
-			return false;
-		}
-		return keys.stream().anyMatch(x -> x.getKeyData().isCanBeUsedForDecryption());
+	private boolean isThereAKeyForDecryption() {
+		return keyRingService.readKeys().stream().anyMatch(x -> x.getKeyData().isCanBeUsedForDecryption());
 	}
 
 	private boolean shouldWeShowMissingPrivateKeyWarning(Set<String> options) {
